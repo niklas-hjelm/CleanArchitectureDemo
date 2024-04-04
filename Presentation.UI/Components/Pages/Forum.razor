@@ -1,0 +1,24 @@
+﻿@page "/Forum"
+@inject IForumRepository ForumRepository
+@rendermode InteractiveServer
+<h3>Forum</h3>
+
+<button @onclick="Add">Add</button>
+<ThreadView Names="Names"></ThreadView>
+
+@code {
+	public List<string> Names { get; set; } = new();
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+		{
+			var res = await ForumRepository.GetAllAsync();
+		}
+	}
+
+	private void Add()
+	{
+		Names.Add($"Thread {Names.Count + 1}");
+	}
+}

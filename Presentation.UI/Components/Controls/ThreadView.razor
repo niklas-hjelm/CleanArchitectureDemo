@@ -1,0 +1,10 @@
+﻿@rendermode InteractiveServer
+
+<Virtualize Items="Names">
+	<h3>@context</h3>
+</Virtualize>
+
+@code {
+	[Parameter]
+	public List<string> Names { get; set; } = new List<string>();
+}
