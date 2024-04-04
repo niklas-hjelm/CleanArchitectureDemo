@@ -1,7 +1,24 @@
-﻿@rendermode InteractiveServer
+﻿@using Infrastructure.DataAccess.Forum.Documents
+@inject IForumRepository ForumRepository
+@rendermode InteractiveServer
 
-<EditForm></EditForm>
+<EditForm Model="Test" OnSubmit="AddThread">
+	<InputText @bind-Value="Test.Title"></InputText>
+	<button type="submit">Add</button>
+</EditForm>
 
 @code {
-	
+	public NewThread Test { get; set; } = new ();
+
+	private async Task AddThread()
+	{
+		await ForumRepository.AddAsync(new ForumThreadDocument { Title = Test.Title });
+		Test = new NewThread();
+		StateHasChanged();
+	}
+
+	public class NewThread
+	{
+		public string Title { get; set; }
+	}
 }

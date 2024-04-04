@@ -1,24 +1,28 @@
 ﻿@page "/Forum"
+@using Infrastructure.DataAccess.Forum.Documents
 @inject IForumRepository ForumRepository
 @rendermode InteractiveServer
 <h3>Forum</h3>
 
-<button @onclick="Add">Add</button>
-<ThreadView Names="Names"></ThreadView>
+<NewThreadControl></NewThreadControl>
+
+<ThreadView ForumThreads="ForumThreads"></ThreadView>
 
 @code {
-	public List<string> Names { get; set; } = new();
+
+	public List<ForumThreadDocument> ForumThreads { get; set; } = new();
+
 
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
 		{
-			var res = await ForumRepository.GetAllAsync();
+			ForumThreads.AddRange(await ForumRepository.GetAllAsync());
 		}
+
 	}
 
 	private void Add()
 	{
-		Names.Add($"Thread {Names.Count + 1}");
 	}
 }
